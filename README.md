@@ -92,12 +92,23 @@ cases/case_XXXX/
   source/                  # 补丁后的源码，不含 .git
 ```
 
-也可从自己提供的提交 CSV（列名 `commit_id`）和外部 Linux checkout 准备输入：
+也可从自己提供的提交 CSV（列名 `commit_id`）和外部 Linux checkout 准备输入。
+仓库提供 [CSV 示例模板](examples/commits.example.csv)，其中两行提交值均为占位符，不包含真实实验提交。
+
+先复制模板：
 
 ```bash
-uv run python -m tools.prepare_cases /path/to/commits.csv --linux-repo /path/to/linux
+cp examples/commits.example.csv commits.local.csv
 ```
 
+将 `commits.local.csv` 中的占位符替换为本地 Linux 仓库中的目标提交 SHA，可按需增删数据行。
+填写后运行：
+
+```bash
+uv run python -m tools.prepare_cases commits.local.csv --linux-repo /path/to/linux
+```
+
+`*.local.csv` 默认被 Git 忽略，填写后的真实提交列表不会随普通提交上传。
 准备程序同时生成仅供宿主历史工具使用的 `cases/case_metadata/`。该目录及 Linux 仓库不分发，也不提供给模型的源码 shell。
 历史工具位于根目录 `tools/`，按 `LINUX_REPO_PATH` 或 `--history-linux-repo` 使用外部源码仓库。
 

@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 *.local.toml
+*.local.csv
 auth.json
 .agents/
 .codex/
