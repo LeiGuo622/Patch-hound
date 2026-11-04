@@ -1,0 +1,12 @@
+diff --git a/example.c b/example.c
+--- a/example.c
++++ b/example.c
+@@ -6,7 +6,7 @@
+ {
+     char buffer[16] = {0};
+ 
+-    if (length >= sizeof(buffer))
++    if (length > sizeof(buffer))
+         return -1;
+     memcpy(buffer, input, length);
+     buffer[length] = '\0';

@@ -1,0 +1,23 @@
+{
+  "name": "patchhound-experiments-opencode-simple",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test dist/tests-ts/*.test.js"
+  },
+  "dependencies": {
+    "@opencode-ai/sdk": "1.18.25",
+    "opencode-ai": "1.18.25",
+    "undici": "7.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
+  }
+}

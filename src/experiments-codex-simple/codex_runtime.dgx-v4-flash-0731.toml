@@ -1,0 +1,45 @@
+# PatchHound experiments-codex-simple runtime for the self-hosted DGX Spark DeepSeek
+# V4 Flash 0731 comparison run. The endpoint is unauthenticated vLLM; the API
+# key is a placeholder supplied through PATCHHOUND_DGX_API_KEY at runtime so
+# the Codex apikey auth path stays exercised. It must not be written to this
+# file or to experiment artifacts.
+
+model_provider = "dgx"
+model = "deepseek-v4-flash-0731"
+model_reasoning_effort = "high"
+cli_auth_credentials_store = "file"
+disable_response_storage = true
+approval_policy = "never"
+default_permissions = "patch_review"
+project_root_markers = []
+
+[model_providers.dgx]
+name = "DGX Spark DeepSeek"
+base_url = "http://127.0.0.1:8000/v1"
+env_key = "PATCHHOUND_DGX_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+
+[features]
+memories = false
+
+[memories]
+generate_memories = false
+use_memories = false
+disable_on_external_context = true
+
+[history]
+persistence = "none"
+
+[permissions.patch_review.filesystem]
+":minimal" = "read"
+
+[permissions.patch_review.filesystem.":workspace_roots"]
+"." = "read"
+
+[permissions.patch_review.network]
+enabled = false
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false

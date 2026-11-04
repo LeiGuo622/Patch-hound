@@ -1,0 +1,42 @@
+#!/bin/sh
+# OpenCode's bash tool enters this second restricted boundary. Bubblewrap is
+# preferred; Landlock is used when the host permits the outer namespace but not
+# an unprivileged nested user namespace. The OpenCode server, authentication
+# storage, MCP broker socket, and sidecar files are deliberately absent from
+# it; only the read-only case source and writable scratch remain.
+if [ "${PATCHHOUND_AGENT_SHELL_BACKEND:-bubblewrap}" = "landlock" ]; then
+  exec /usr/bin/python3 /app/bin/landlock_shell.py "$@"
+fi
+exec /usr/bin/bwrap \
+  --die-with-parent \
+  --new-session \
+  --unshare-pid \
+  --unshare-ipc \
+  --unshare-uts \
+  --unshare-net \
+  --proc /proc \
+  --dev /dev \
+  --ro-bind /usr /usr \
+  --symlink usr/bin /bin \
+  --symlink usr/lib /lib \
+  --symlink usr/lib64 /lib64 \
+  --symlink usr/sbin /sbin \
+  --ro-bind /etc /etc \
+  --dir /run \
+  --dir /run/systemd \
+  --dir /run/systemd/resolve \
+  --ro-bind-try /run/systemd/resolve/stub-resolv.conf /run/systemd/resolve/stub-resolv.conf \
+  --ro-bind /workspace/source /workspace/source \
+  --bind /scratch /scratch \
+  --tmpfs /tmp \
+  --clearenv \
+  --setenv HOME /scratch/home \
+  --setenv XDG_CONFIG_HOME /scratch/xdg-config \
+  --setenv XDG_CACHE_HOME /scratch/xdg-cache \
+  --setenv XDG_DATA_HOME /scratch/xdg-data \
+  --setenv TMPDIR /scratch/tmp \
+  --setenv PATH /usr/bin:/bin \
+  --setenv LANG C.UTF-8 \
+  --setenv LC_ALL C.UTF-8 \
+  --chdir /workspace/source \
+  /bin/bash "$@"

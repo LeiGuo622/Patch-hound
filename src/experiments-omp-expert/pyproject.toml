@@ -1,0 +1,28 @@
+[project]
+name = "patchhound-experiments-omp-expert"
+version = "0.1.0"
+description = "Isolated OHMYPI patch-security verification experiment"
+requires-python = ">=3.13"
+dependencies = [
+    "openinference-semantic-conventions==0.1.33",
+    "opentelemetry-exporter-otlp-proto-http==1.44.0",
+    "opentelemetry-sdk==1.44.0",
+    "python-dotenv==1.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==8.4.2",
+    "ruff==0.12.12",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

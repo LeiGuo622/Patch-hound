@@ -1,0 +1,40 @@
+# OpenCode runtime for the self-hosted DGX Spark DeepSeek V4 Flash 0731 run.
+# The endpoint is unauthenticated vLLM; the sidecar resolves the placeholder
+# key from PATCHHOUND_DGX_API_KEY in its isolated outer environment.
+
+[experiment]
+logical_model = "deepseek-v4-flash-0731"
+model_selector = "dgx/deepseek-v4-flash-0731"
+provider = "dgx"
+reasoning_effort = "high"
+timeout_seconds = 7200
+max_contract_repairs = 2
+history_mcp_required = true
+network_enabled = false
+output_dir_name = "opencode-runs"
+
+[runtime]
+cli_version = "1.18.25"
+sdk_version = "1.18.25"
+sidecar_protocol_version = 1
+server_ready_timeout_seconds = 15
+mcp_timeout_ms = 30000
+dispose_grace_seconds = 5
+auth_required = false
+
+[tools]
+enabled = ["bash", "read", "glob", "grep", "patchhound_history_query_pre_patch_history"]
+disabled = ["apply_patch", "edit", "write", "task", "skill", "lsp", "todowrite", "question", "websearch", "webfetch"]
+
+[limits]
+message_bytes = 1048576
+stderr_bytes = 131072
+tool_output_bytes = 131072
+event_output_bytes = 131072
+total_event_bytes = 67108864
+
+[phoenix]
+enabled = true
+collector_endpoint = "http://127.0.0.1:6006/v1/traces"
+project_name = "patchhound-experiments-opencode-simple-dgx-v4-flash-0731"
+max_tool_output_bytes = 131072

@@ -1,0 +1,49 @@
+# PatchHound experiments-codex-simple runtime for the NewAPI GLM-5.3 comparison run.
+# The existing NewAPI credential is supplied through PATCHHOUND_DEEPSEEK_API_KEY
+# at runtime; it must not be written to this file or to experiment artifacts.
+
+model_provider = "newapi"
+model = "z-ai/glm-5.3"
+model_reasoning_effort = "high"
+cli_auth_credentials_store = "file"
+disable_response_storage = true
+approval_policy = "never"
+default_permissions = "patch_review"
+project_root_markers = []
+
+[model_providers.newapi]
+name = "NewAPI"
+base_url = "https://api.example.invalid/v1"
+env_key = "PATCHHOUND_DEEPSEEK_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+
+[features]
+memories = false
+
+[phoenix]
+enabled = true
+collector_endpoint = "http://127.0.0.1:6006/v1/traces"
+project_name = "patchhound-experiments-codex-simple-glm-5-3"
+max_tool_output_bytes = 131072
+
+[memories]
+generate_memories = false
+use_memories = false
+disable_on_external_context = true
+
+[history]
+persistence = "none"
+
+[permissions.patch_review.filesystem]
+":minimal" = "read"
+
+[permissions.patch_review.filesystem.":workspace_roots"]
+"." = "read"
+
+[permissions.patch_review.network]
+enabled = false
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false

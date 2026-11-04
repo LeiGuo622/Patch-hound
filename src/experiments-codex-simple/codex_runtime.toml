@@ -1,0 +1,36 @@
+# PatchHound experiments-codex-simple Codex SDK runtime settings.
+# This file is copied into an isolated CODEX_HOME for every run.
+
+model_provider = "openai"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+forced_login_method = "chatgpt"
+cli_auth_credentials_store = "file"
+disable_response_storage = true
+approval_policy = "never"
+default_permissions = "patch_review"
+project_root_markers = []
+
+[features]
+memories = false
+
+[memories]
+generate_memories = false
+use_memories = false
+disable_on_external_context = true
+
+[history]
+persistence = "none"
+
+[permissions.patch_review.filesystem]
+":minimal" = "read"
+
+[permissions.patch_review.filesystem.":workspace_roots"]
+"." = "read"
+
+[permissions.patch_review.network]
+enabled = false
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false

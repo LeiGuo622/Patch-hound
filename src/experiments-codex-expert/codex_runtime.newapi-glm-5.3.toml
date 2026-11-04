@@ -1,0 +1,50 @@
+# PatchHound experiments-codex-expert Codex SDK runtime settings - NewAPI GLM-5.3.
+# This is copied into an isolated CODEX_HOME for every independent expert stage.
+# Keep secrets out of this file; PATCHHOUND_DEEPSEEK_API_KEY is resolved from
+# the process environment or the repository .env by the host runner.
+
+model_provider = "newapi"
+model = "z-ai/glm-5.3"
+model_reasoning_effort = "high"
+preferred_auth_method = "apikey"
+disable_response_storage = true
+approval_policy = "never"
+default_permissions = "patch_review"
+project_root_markers = []
+
+[model_providers.newapi]
+name = "NewAPI DeepSeek"
+base_url = "https://api.example.invalid/v1"
+wire_api = "responses"
+env_key = "PATCHHOUND_DEEPSEEK_API_KEY"
+
+[features]
+memories = false
+
+[phoenix]
+enabled = true
+collector_endpoint = "http://127.0.0.1:6006/v1/traces"
+project_name = "patchhound-experiments-codex-expert-glm-5-3"
+max_tool_output_bytes = 131072
+
+[memories]
+generate_memories = false
+use_memories = false
+disable_on_external_context = true
+
+[history]
+persistence = "none"
+
+[permissions.patch_review.filesystem]
+":minimal" = "read"
+
+[permissions.patch_review.filesystem.":workspace_roots"]
+"." = "read"
+
+[permissions.patch_review.network]
+enabled = false
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false
+exclude = ["PATCHHOUND_DEEPSEEK_API_KEY"]

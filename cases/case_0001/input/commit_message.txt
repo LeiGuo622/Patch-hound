@@ -1,0 +1,5 @@
+demo: allow a full-sized input buffer
+
+Adjust the length check to accept inputs up to the buffer capacity.
+
+This is a self-authored teaching example, not an upstream patch.

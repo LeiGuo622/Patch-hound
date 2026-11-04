@@ -1,0 +1,2 @@
+# Codex Python SDK snapshot used by these agents. Installed separately from core dependencies.
+openai-codex @ git+https://github.com/openai/codex.git@95637f7056835fea66bdd0044414af480fc0fd74#subdirectory=sdk/python

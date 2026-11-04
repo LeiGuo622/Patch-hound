@@ -1,0 +1,20 @@
+[project]
+name = "patchhound"
+version = "0.1.0"
+description = "Isolated, staged security analysis for Linux kernel patches"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openinference-semantic-conventions>=0.1.21",
+    "opentelemetry-exporter-otlp-proto-http>=1.36.0",
+    "opentelemetry-sdk>=1.36.0",
+    "pydantic>=2.12",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

@@ -1,0 +1,44 @@
+# OMP expert runtime for the NewAPI DeepSeek comparison run.
+# PATCHHOUND_DEEPSEEK_API_KEY is injected into the outer sidecar only.
+
+[experiment]
+logical_model = "deepseek/deepseek-v4-flash"
+model_selector = "newapi/deepseek/deepseek-v4-flash"
+provider = "newapi"
+reasoning_effort = "high"
+timeout_seconds = 7200
+max_contract_repairs = 0
+history_mcp_required = true
+network_enabled = false
+output_dir_name = "omp-expert-runs"
+
+[runtime]
+omp_sdk_version = "18.0.11"
+bun_min_version = "1.3.14"
+source_revision = "eea5628f13043286e17c4a2ea4fc28b15fda33ca"
+sidecar_protocol_version = 1
+server_ready_timeout_seconds = 15
+mcp_timeout_ms = 30000
+dispose_grace_seconds = 5
+auth_required = false
+
+[tools]
+enabled = ["read", "grep", "glob", "bash", "query_pre_patch_history"]
+disabled = ["edit", "write", "apply_patch", "patch", "task", "subagent", "lsp", "browser", "skill", "memory", "question", "todowrite"]
+
+[limits]
+message_bytes = 1048576
+stderr_bytes = 131072
+tool_output_bytes = 131072
+event_output_bytes = 131072
+total_event_bytes = 67108864
+
+[phoenix]
+enabled = true
+collector_endpoint = "http://127.0.0.1:6006/v1/traces"
+project_name = "patchhound-experiments-omp-expert-deepseek-v4-flash"
+max_tool_output_bytes = 131072
+
+[project]
+name = "patchhound-experiments-omp-expert-deepseek-v4-flash"
+version = "0.1.0"
